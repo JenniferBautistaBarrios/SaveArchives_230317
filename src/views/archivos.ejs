@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <title>SaveArchives | 230317 | MisArchivos </title>
+</head>
+<body class="bg-pink-50 text-gray-800">
+    <!-- Contenedor principal -->
+    <div class="flex flex-wrap justify-center py-10">
+        <!-- Caja del usuario -->
+        <div class="bg-white shadow-lg rounded-s-xl w-full max-w-sm p-6 mb-6">
+            <div class="text-center">
+                <img src="https://via.placeholder.com/100" alt="Usuario" class="rounded-full mx-auto mb-4">
+                <h2 class="text-lg font-bold">Usuario</h2>
+                <p>Nombre: <strong><%= usuario.nombre %></strong></p>
+                <p>Correo: <strong><%= usuario.correo %></strong></p>
+            </div>
+        </div>
+
+        <!-- Formulario -->
+        <div class="bg-white shadow-lg rounded-lg w-full max-w-sm p-6 mb-6">
+            <h2 class="text-center text-lg font-bold mb-4">Subir Archivo</h2>
+            <form method="POST" action="/archivos/guardarArchivo">
+                <div class="mb-4">
+                    <label for="filename" class="block text-gray-700 font-medium mb-2">Nombre del Archivo:</label>
+                    <input type="text" id="filename" name="filename" placeholder="Escribe el nombre del archivo" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-pink-400" required>
+                </div>
+                <div class="mb-4">
+                    <label for="filetype" class="block text-gray-700 font-medium mb-2">Tipo de Archivo:</label>
+                    <select id="filetype" name="filetype" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-pink-400" required>
+                        <option value="" disabled selected>Selecciona el tipo de archivo</option>
+                        <option value="documento">Documento</option>
+                        <option value="imagen">Imagen</option>
+                        <option value="presentacion">Presentación</option>
+                        <option value="hoja_calculo">Hoja de Cálculo</option>
+                        <option value="pdf">PDF</option>
+                        <option value="comprimido">Archivo Comprimido</option>
+                        <option value="carpeta">Carpeta</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label for="filedesc" class="block text-gray-700 font-medium mb-2">Descripción:</label>
+                    <textarea id="filedesc" name="descripcion" placeholder="Agrega una breve descripción del archivo (Opcional)" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-pink-400"></textarea>
+                </div>
+                <div class="text-right">
+                    <button type="submit" class="bg-pink-500 text-white px-4 py-2 rounded-md hover:bg-pink-600">Subir Archivo</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Contenedor de archivos -->
+        <div class=" m-10 w-full grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <% if (archivos && archivos.length > 0) { %>
+                <% archivos.forEach(archivo => { %>
+                <div class="flex bg-white shadow-lg rounded-lg overflow-hidden">
+                    <!-- Icono -->
+                    <div class="flex items-center justify-center w-1/3 bg-pink-100">
+                        <i class="material-icons text-pink-500 text-6xl">
+                            <% if (archivo.tipo === 'documento') { %>
+                                description
+                            <% } else if (archivo.tipo === 'imagen') { %>
+                                image
+                            <% } else if (archivo.tipo === 'presentacion') { %>
+                                slideshow
+                            <% } else if (archivo.tipo === 'hoja_calculo') { %>
+                                table_chart
+                            <% } else if (archivo.tipo === 'pdf') { %>
+                                picture_as_pdf
+                            <% } else if (archivo.tipo === 'comprimido') { %>
+                                folder_zip
+                            <% } else if (archivo.tipo === 'carpeta') { %>
+                                folder
+                            <% } else { %>
+                                insert_drive_file
+                            <% } %>
+                        </i>
+                    </div>
+                    <!-- Información del archivo -->
+                    <div class="w-2/3 p-4">
+                        <h3 class="text-lg font-bold text-pink-700"><%= archivo.nombre %></h3>
+                        <p class="text-sm text-gray-600">Tamaño: <%= archivo.tamanio %> KB</p>
+                        <% if (archivo.descripcion) { %>
+                            <p class="text-sm text-gray-600">Descripción: <%= archivo.descripcion %></p>
+                        <% } %>
+                    </div>
+                    <div class="flex mt-6 pr-5">
+                        <form action="/archivos/eliminarArchivo" method="post" class="inline ">
+                            <input type="hidden" name="nombre" value="<%= archivo.nombre %>">
+                            <button type="submit" class="text-pink-100 hover:text-pink-700">
+                                <i class="material-icons">delete</i> Eliminar
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <% }); %>
+            <% } else { %>
+                <p class="text-gray-600">No se encontraron archivos para este usuario.</p>
+            <% } %>
+            
+        </div>
+        
+    </div>
+</body>
+</html>

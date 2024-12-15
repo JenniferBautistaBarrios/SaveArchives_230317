@@ -1,0 +1,190 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.bg-fondo {
+    background-image: url('/img/bg.jpg');
+    background-size: cover;
+}
+
+
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:600,300);
+
+.frame {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 20px; 
+  padding: 20px; 
+  width: 100vw;
+  height: 100vh;
+  background: #4e6dca;
+  background: -webkit-linear-gradient(bottom left, #6cc9ee 0%, #4e6bca 100%);
+  background: -moz-linear-gradient(bottom left, #6cc9ee 0%, #4e6bca 100%);
+  background: -o-linear-gradient(bottom left, #6cc9ee 0%, #4e6bca 100%);
+  background: linear-gradient(to top right, #6cc9ee 0%, #4e6bca 100%);
+  color: #505778;
+  font-family: 'Open Sans', Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
+  overflow-y: auto; 
+}
+
+.center {
+  height: 299px;
+  background: #fff;
+  border-radius: 3px;
+  overflow: hidden;
+  box-shadow: 10px 10px 15px 0 rgba(0, 0, 0, 0.3);
+  margin: auto; 
+}
+
+.perfil {
+  float: left;
+  width: 200px;
+  height: 320px;
+  text-align: center;
+}
+
+.perfil .image {
+  position: relative;
+  width: 70px;
+  height: 70px;
+  margin: 38px auto 0 auto;
+}
+
+.perfil .image .circle-1 {
+  position: absolute;
+  box-sizing: border-box;
+  width: 76px;
+  height: 76px;
+  top: -3px;
+  left: -3px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #505d78 #505978 #505578 transparent;
+  border-radius: 50%;
+  transition: all 1.5s ease-in-out;
+}
+
+.perfil .image .circle-2 {
+  position: absolute;
+  box-sizing: border-box;
+  width: 82px;
+  height: 82px;
+  top: -6px;
+  left: -6px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #505b78 transparent #506178 #505e78;
+  border-radius: 50%;
+  transition: all 1.5s ease-in-out;
+}
+
+.perfil.image img {
+  display: block;
+  border-radius: 50%;
+  background: #dfedf5;
+}
+
+.perfil .image:hover {
+  cursor: pointer;
+}
+
+.perfil .image:hover .circle-1 {
+  transform: rotate(360deg);
+}
+
+.perfil .image:hover .circle-2 {
+  transform: rotate(-360deg);
+}
+
+.perfil .nombre {
+  font-size: 15px;
+  font-weight: 600;
+  margin-top: 20px;
+}
+
+.perfil .correo {
+  font-size: 11px;
+  line-height: 15px;
+}
+
+.perfil .actions {
+  margin-top: 33px;
+}
+
+.perfil .actions .btn {
+  display: block;
+  width: 120px;
+  height: 30px;
+  margin: 0 auto 10px auto;
+  background: none;
+  border: 1px solid #505b78;
+  border-radius: 15px;
+  font-size: 12px;
+  font-weight: 600;
+  box-sizing: border-box;
+  transition: all 0.3s ease-in-out;
+  color: #505e78;
+  text-align: center;
+  line-height: 30px;
+}
+
+.perfil .actions .btn:hover {
+  background: #505578;
+  color: #fff;
+}
+
+.datos {
+  float: left;
+}
+
+.datos .box {
+  box-sizing: border-box;
+  width: 120px;
+  height: 99px;
+  background: #dfe6f5;
+  text-align: center;
+  padding-top: 28px;
+  transition: all 0.4s ease-in-out;
+}
+
+.datos .box:hover {
+  background: #c2cce1;
+  cursor: pointer;
+}
+
+.datos .box:nth-child(2) {
+  margin: 1px 0;
+}
+
+.datos span {
+  display: block;
+}
+
+.datos .value {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.datos .parameter {
+  font-size: 11px;
+}
+
+
+.card-form {
+  border-radius: 20px;
+  background: #f5f5f5;
+  position: relative;
+  padding: 1.8rem;
+  border: 2px solid #c3c6ce;
+  transition: 0.5s ease-out;
+  overflow: visible;
+ }
+
+ .card-form:hover {
+  border-color: #008bf8;
+  box-shadow: 0 4px 18px 0 rgba(0, 0, 0, 0.25);
+  opacity: 1;
+ }

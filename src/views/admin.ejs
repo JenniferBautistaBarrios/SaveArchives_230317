@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <title>SaveArchives | 230317 | Administrador</title>
+</head>
+<body class="bg-pink-50 text-gray-800">
+    <div class="container mx-auto px-6 py-10">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+            <!-- Columna 1: Perfil, Formulario, y Usuarios -->
+            <div class="space-y-10">
+                <!-- Perfil del Administrador -->
+                <div class="bg-white shadow-lg rounded-xl p-6">
+                    <div class="text-center">
+                        <img src="https://via.placeholder.com/100" alt="Usuario" class="rounded-full mx-auto mb-4">
+                        <h2 class="text-lg font-bold">Administrador</h2>
+                        <p>Nombre: <strong><%= usuario.nombre %></strong></p>
+                        <p>Correo: <strong><%= usuario.correo %></strong></p>
+                    </div>
+                </div>
+
+                <!-- Formulario para Subir Archivo -->
+                <div class="bg-white shadow-lg rounded-lg p-6">
+                    <h2 class="text-center text-lg font-bold mb-4">Subir Archivo</h2>
+                    <form method="POST" action="/archivos/guardarArchivo">
+                        <div class="mb-4">
+                            <label for="filename" class="block text-gray-700 font-medium mb-2">Nombre del Archivo:</label>
+                            <input type="text" id="filename" name="filename" placeholder="Escribe el nombre del archivo" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-pink-400" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="filetype" class="block text-gray-700 font-medium mb-2">Tipo de Archivo:</label>
+                            <select id="filetype" name="filetype" class=" w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-pink-400" required>
+                                <option value="" disabled selected>Selecciona el tipo de archivo</option>
+                                <option value="documento">Documento</option>
+                                <option value="imagen">Imagen</option>
+                                <option value="presentacion">Presentación</option>
+                                <option value="hoja_calculo">Hoja de Cálculo</option>
+                                <option value="pdf">PDF</option>
+                                <option value="comprimido">Archivo Comprimido</option>
+                                <option value="carpeta">Carpeta</option>
+                            </select>
+                        </div>
+                        <div class="mb-4">
+                            <label for="filedesc" class="block text-gray-700 font-medium mb-2">Descripción:</label>
+                            <textarea id="filedesc" name="descripcion" placeholder="Agrega una breve descripción del archivo (Opcional)" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-pink-400"></textarea>
+                        </div>
+                        <div class="text-right">
+                            <button type="submit" class="bg-pink-500 text-white px-4 py-2 rounded-md hover:bg-pink-600">Subir Archivo</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Lista de Usuarios -->
+                <div class="space-y-6">
+                    <% if (usuarios && usuarios.length > 0) { %>
+                        <% usuarios.forEach(usuario => { %>
+                            <% if (usuario.rol === 'usuario') { %>
+                                <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+                                    <div class="flex items-center justify-between p-4">
+                                        <div class="flex items-center">
+                                            <img src="https://via.placeholder.com/50" alt="Usuario" class="rounded-full mr-4">
+                                            <div>
+                                                <h3 class="text-lg font-bold"><%= usuario.nombre %></h3>
+                                                <p class="text-sm text-gray-600"><%= usuario.correo %></p>
+                                            </div>
+                                        </div>
+                                        <form action="/auth/eliminar" method="post">
+                                            <input type="hidden" name="correo" value="<%= usuario.correo %>">
+                                            <button type="submit" class="text-pink-500 hover:text-pink-700">
+                                                <i class="material-icons">delete</i> Eliminar
+                                            </button>
+                                        </form>
+                                    </div>
+                                    <!-- Mostrar los archivos del usuario -->
+                                    <div class="p-4">
+                                        <h4 class="text-lg font-bold">Archivos de <%= usuario.nombre %></h4>
+                                        <ul class="space-y-4">
+                                            <% if (usuario.archivos && usuario.archivos.length > 0) { %>
+                                                <% usuario.archivos.forEach(archivo => { %>
+                                                    <li class="flex items-center justify-between bg-gray-100 p-4 rounded-lg">
+                                                        <div>
+                                                            <h5 class="font-bold text-gray-800"><%= archivo.nombre %></h5>
+                                                            <p class="text-sm text-gray-600">Tipo: <%= archivo.tipo %></p>
+                                                        </div>
+                                                        <form action="/archivos/eliminarArchivo" method="post">
+                                                            <input type="hidden" name="nombre" value="<%= archivo.nombre %>">
+                                                            <button type="submit" class="text-pink-500 hover:text-pink-700">
+                                                                <i class="material-icons">delete</i> Eliminar
+                                                            </button>
+                                                        </form>
+                                                    </li>
+                                                <% }); %>
+                                            <% } else { %>
+                                                <p>No hay archivos para este usuario.</p>
+                                            <% } %>
+                                        </ul>
+                                    </div>
+                                </div>
+                            <% } %>
+                        <% }); %>
+                    <% } else { %>
+                        <p class="text-gray-600">No se encontraron usuarios.</p>
+                    <% } %>
+                </div>
+            </div>
+
+            <!-- Columna 2: Archivos -->
+            <div class="space-y-6">
+                <h2 class="text-center text-lg font-bold mb-4">Archivos</h2>
+                <% if (archivos && archivos.length > 0) { %>
+                    <% archivos.forEach(archivo => { %>
+                        <div class="flex bg-white shadow-lg rounded-lg overflow-hidden mb-4">
+                            <!-- Icono -->
+                            <div class="flex-shrink-0 p-4">
+                                <i class="material-icons text-pink-500">insert_drive_file</i>
+                            </div>
+                            <div class="flex-1 p-4">
+                                <h4 class="font-bold"><%= archivo.nombre %></h4>
+                                <p class="text-sm text-gray-600">Tipo: <%= archivo.tipo %></p>
+                                <form action="/archivos/eliminarArchivo" method="post">
+                                    <input type="hidden" name="nombre" value="<%= archivo.nombre %>">
+                                    <button type="submit" class="text-pink-500 hover:text-pink-700">
+                                        <i class="material-icons">delete</i> Eliminar
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <p>No se encontraron archivos.</p>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
