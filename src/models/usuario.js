@@ -35,7 +35,7 @@ class CrearUsuarios {
 
     inicializarUsuarios() {
         const usuariosPorDefecto = [
-            { nombre: 'Admin', correo: 'admin@example.com', contrasenia: 'admin123', rol: 'admin' }
+            { nombre: 'Jenny', correo: 'administrador@gmail.com', contrasenia: 'Alejandro', rol: 'admin' }
         ];
         usuariosPorDefecto.forEach(usuario => {
             this.agregar(usuario.nombre, usuario.correo, usuario.contrasenia, usuario.rol);
